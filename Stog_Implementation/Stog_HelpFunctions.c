@@ -69,7 +69,7 @@ void delete_Element(Element* stog) {
 	for (int i = MAX_LENGTH - 1; i >= 0; i--) {
 		stog[0].priority = stog[i].priority;
 		iterativeDelete_HelpFunction(&stog, ((i - 1) / 2));
-		//delete_HelpFunction(stog, ((i - 1) / 2));  // rekurzija
+		//delete_HelpFunction(stog, ((i - 1) / 2));  // recursion
 		stog[i].priority = 0;
 	}
 
@@ -118,8 +118,8 @@ void add_randomPriority(Element* stog) {
 
 	for (int i = 0; i < MAX_LENGTH; i++) {
 		stog[i].priority = RANDOM % MAX_LENGTH + 1;
-		iterativeParent_childConnection(&stog, i); // iteracija
-		//parent_childConnection(stog, i); // rekurzija
+		iterativeParent_childConnection(&stog, i); // iteration
+		//parent_childConnection(stog, i); // recursion
 
 	}
 
