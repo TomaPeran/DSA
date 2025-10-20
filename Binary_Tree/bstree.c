@@ -5,7 +5,7 @@
 
 BSTree NewBSTree()
 {
-	// Novo prazno stablo
+	// New empty tree
 	BSTree newTree = (BSTree)malloc(sizeof(Node));
 	newTree->word = NULL;
 	newTree->left = NULL;
@@ -16,16 +16,13 @@ BSTree NewBSTree()
 
 void AddNode(BSTree *bst, char *word)
 {
-	// Rekurzivno se traži mjesto za novi èvor u stablu. Ako rijeè postoji u stablu, ne dodaje se.
-	// bst parametar je dvostruki pokazivaè. -> Pre-order?
-	
+	// Recursively searching for a word inside the tree, if found it's not added 
 	
 	if (*bst == NULL || (*bst)->word == NULL) { 
 		(*bst) = NewBSTree();
 		(*bst)->word = strdup(word);
 	}
 
-	// strcmp(str1, str2); (< 0) -> str1 manji od str2; (> 0) -> str1 veci od str2;
 	else if (strcmp((*bst)->word, word) > 0) {
 		AddNode(&(*bst)->left, word);
 	
@@ -40,7 +37,7 @@ void AddNode(BSTree *bst, char *word)
 
 int BSTHeight(BSTree bst)
 {
-	// Rekurzivno se prolazi cijelo stablo da bi se pronašla najduža grana (visina stabla).
+	// Recursively going throught whole tree to find longest branch aka tree height
 	if (bst == NULL)
 		return 0;
 
@@ -52,8 +49,8 @@ int BSTHeight(BSTree bst)
 
 void PrintBSTree(BSTree bst)
 {
-	// Ispisuje rijeèi u stablu na ekran po abecednom redu.
-	// In-order šetnja po stablu (lijevo dijete, èvor, desno dijete)
+	// Writes the words in the tree on the screen in alphabetical order. 
+	// In-order tree walk (left child, knot, right child)
 	
 	if (bst != NULL) {
 		PrintBSTree(bst->left);
@@ -65,30 +62,21 @@ void PrintBSTree(BSTree bst)
 
 void SaveBSTree(BSTree bst, FILE *fd)
 {
-	// Snima rijeè po rijeè iz stabla u tekstualnu datoteku. Rijeèi su odvojene razmakom.
-	// Pre-order šetnja po stablu (trenutni èvor pa djeca)
-	// 	
+	// Records word by word from the tree to a text file.
+	// The words are separated by a space. 
+	// Pre-order tree walk (current knot then children)
 	if (bst == NULL)
 		return;
 
 	SaveBSTree(bst->left, fd);
 	fprintf(fd, "%s\n", bst->word);
 	SaveBSTree(bst->right, fd);
-
-
-	/*
-	while (bst == NULL) {
-		SaveBSTree(bst->left, fd);
-		fprintf(fd, "%s \n", bst->word);
-		SaveBSTree(bst->right, fd);
-	}
-	*/
 }
 
 void DeleteBSTree(BSTree bst)
 {
-	// Briše stablo (string word i sam èvor) iz memorije.
-	// Post-order šetnja po stablu (prvo djeca pa trenutni èvor)
+	// Deletes the tree (string word and the node itself) from memory. 
+	// Post-order tree walk (first the children, then the current knot)
 	if (bst == NULL)
 		return;
 	
@@ -101,25 +89,17 @@ void DeleteBSTree(BSTree bst)
 	DeleteBSTree(bst->right);
 	return;
 	
-	/*
-	DeleteBSTree(bst->left);
-	DeleteBSTree(bst->right);
-	free(bst->word);
-	free(bst);
-	*/
-
-	//PrintBSTree(bst);
 
 }
 
 BSTree LoadBSTree(FILE *fd)
 {
-	// Uèitava rijeè po rijeè iz tekstualne datoteke i dodaje ih u stablo preko AddNode() funkcije.
-	// Rijeè duplicirati sa strdup().
+	// Reads word by word from a text file and adds them to the tree via 
+	// the AddNode() function. Duplicate the word with strdup().
 	char buffer[1024];
 	BSTree bst;
 
-	bst = NewBSTree(); // nadodano
+	bst = NewBSTree();
 
 	while (1) {
 		if (fscanf(fd, "%s", buffer) == EOF) {
