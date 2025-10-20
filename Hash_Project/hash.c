@@ -7,16 +7,17 @@
 
 HashTable *NewTable(int size)
 {
-	// kreira novu hash tablicu (alocira samu strukturu i niz pokazivaèa)
+	// Create new hash table
 	
-	// prkaticki stvara se pointer na listu pokazivaca, sveukupno *** 
-	HashTable* dict = (HashTable*)malloc(sizeof(HashTable)); // nista drugo nego dummy head
+	// Basically, pointer on an array of pointers 
+	HashTable* dict = (HashTable*)malloc(sizeof(HashTable)); // dummy head
 	dict->size = size;
 	dict->load = 0;
-	dict->table = (Bin**)malloc(size * sizeof(Bin*)); // // dict->table => dinamicki alociran niz pokazivaca
-	
-	for (int i = 0; i < size; i++) { // za svaki skafetin triba alocirat memoriju
-		dict->table[i] = (Bin*)malloc(sizeof(Bin)); // svaki pointer unutar niza je alociran
+	dict->table = (Bin**)malloc(size * sizeof(Bin*));
+
+	// Allocate memory for every bin inside array
+	for (int i = 0; i < size; i++) {
+		dict->table[i] = (Bin*)malloc(sizeof(Bin));
 		dict->table[i]->word = NULL;
 		dict->table[i]->next = NULL;
 	}
@@ -26,7 +27,7 @@ HashTable *NewTable(int size)
 
 unsigned int hash(char *word)
 {
-	// od kljuca generira hash kod
+	// Generates hash key from the word
 	unsigned int key = 0;
 	while(*word != '\0')
 	{
@@ -35,13 +36,12 @@ unsigned int hash(char *word)
 	}
 	return key;
 }
-
+s
 void Insert(HashTable *ht, char *word)
 {
-	// dodaje novu rijec u listu na odgovarajucem pretincu
+	// Adds a new word to the list on the appropriate inbox.
 
-
-	/* ovaj dio je potreban kod linearnog rjesenja kolizije
+	/* This part is required for a linear collision solution
 	if (ht->load == ht->size) {
 		printf("Tablica puna\n");
 		return;
@@ -53,7 +53,7 @@ void Insert(HashTable *ht, char *word)
 	ht->load++;
 	
 
-	// dodaje u glavu odgovarajuceg skafetina
+	// Adds to the head of the appropriate bin
 	Bin* new_element = (Bin*)malloc(sizeof(Bin));
 	new_element->word = strdup(word);
 	new_element->next = NULL;
@@ -64,17 +64,15 @@ void Insert(HashTable *ht, char *word)
 int Get(HashTable *ht, char *word)
 {
 
-	// pogledat lako moguce da san falia
-	// vraca 0 ili 1 ovisno o tome da li rijec postoji u tablici
+	// Returns 0 or 1 depending on whether the word exists in the table
 
-	unsigned int key = hash(word); // vadi kljuc za pojedinu rijec, id u tablici
+	unsigned int key = hash(word); // Get the key for a particular word, id in the table
 	unsigned int b = key % ht->size;
 	
-	//printf("key: %u\n", b);
 	Bin* tmp = ht->table[b];
-	//printf("tmp: %p\n", tmp);
-	//return 0;
-	while (tmp ->next != NULL) { // usli unutar skafetina, trazi se struktura
+
+	
+	while (tmp ->next != NULL) { // Looking for a structure inside the room
 		if (!strcmp(tmp->next->word, word)) {
 			return 1;
 		}
@@ -87,7 +85,7 @@ int Get(HashTable *ht, char *word)
 
 void DeleteTable(HashTable *ht)
 {
-	// brise cijelu hash tablicu (liste na svim pretincima (rijec i element liste), pretince ...)
+	// Deletes the entire hash table (lists on all mailboxes (word and list element), mailboxes...)
 
 	for (int i = 0; i < ht->size; i++) {
 		Bin *tmp = ht->table[i];
