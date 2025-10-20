@@ -30,7 +30,6 @@ void fillTable(HashTable *dict)
 	FILE *fd;
 	char buffer[1024];
 				
-	//fd = fopen("big.txt", "rt");
 	fd = fopen("liar.txt", "rt");
 	if(fd == NULL)
 	{
@@ -40,7 +39,6 @@ void fillTable(HashTable *dict)
 	
 	while(readWord(fd, buffer))
 	{
-		//printf("%s\n", buffer);
 		if(!Get(dict, buffer))
 			Insert(dict, strdup(buffer));
 	}
@@ -50,7 +48,7 @@ void fillTable(HashTable *dict)
 
 void main()
 {
-	// kolizije se rjesavaju vezanom listom
+	// Colision is solved via linked list
 
 	int i, size;
 	HashTable *dict;
