@@ -56,7 +56,7 @@ int euclids_Matrix(int a, int b) {
 
 
 			if (smaller == matrix[0][0]) {
-				execute_Shiftter(&matrix, bigger / smaller, 0); // 0 oznacava da se radi na nultom indexu
+				execute_Shiftter(&matrix, bigger / smaller, 0); 
 				result = matrix[0][0];
 				s = matrix[0][1];
 				t = matrix[0][2];
