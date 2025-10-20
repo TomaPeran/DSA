@@ -1,14 +1,15 @@
 #ifndef HASH_H
 #define HASH_H
 
-typedef struct Bin { // struktura unutar "ladice" (skafetina)
-	char *word; // rijec
-	struct Bin *next; // pointer na iduci element te liste (u skafetinu)
+// structure inside the "drawer" or "bin"
+typedef struct Bin {
+	char *word;
+	struct Bin *next;
 } Bin;
 
 typedef struct {
-	Bin **table; // niz pokazivaca
-	int size, load; // fizicka i logicka velicina
+	Bin **table; // Array of pointers
+	int size, load; // Physical and logical size
 } HashTable;
 
 HashTable *NewTable(int size);
@@ -21,4 +22,4 @@ int Get(HashTable *ht, char *word);
 
 void DeleteTable(HashTable *ht);
 
-#endif
+#endif // !HASH_H
