@@ -2,13 +2,12 @@
 #define TREE_H
 #include <string.h>
 
-// Èvor stabla sa pokazivaèom na rijeè i na djecu èvora
 typedef struct Node {
 	char *word;
 	struct Node *left, *right;
 } Node;
 
-// Stablo odnosno pokazivaè na korijen stabla
+// Pointer on a root of a tree
 typedef Node* BSTree;
 
 BSTree NewBSTree();
